@@ -50,4 +50,33 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, col = class)) +
   )
 
 library(maps)
-ind<-map_data("india")
+
+## Class 3 penguins
+
+library(palmerpenguins)
+library(tidyverse)
+ggplot(penguins, aes(x = flipper_length_mm, y = bill_length_mm)) +
+  geom_point(aes(color = species, shape = species)) +
+  scale_color_manual(values = c("darkorange", "purple", "cyan4")) +
+  labs(
+    title = "Flipper and bill length",
+    subtitle = "Dimensions for penguins at Palmer Station LTER",
+    x = "Flipper length (mm)",
+    y = "Bill length (mm)",
+    color = "Penguin species",
+    shape = "Penguin species"
+  ) +
+  theme_minimal()
+
+
+view(penguins)
+
+skimr::skim_without_charts(penguins)
+
+fit_lm <- lm(bill_length_mm ~ flipper_length_mm, data = penguins)
+library(broom)
+library(knitr)
+tab_coef <- tidy(fit_lm)
+tab_coef
+
+kable(tab_coef, digits = 3)
